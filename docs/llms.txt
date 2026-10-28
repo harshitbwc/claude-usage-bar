@@ -1,0 +1,30 @@
+# Claude Usage Bar
+
+> A free, open-source (MIT) macOS menu-bar app that shows a Claude subscription's real usage: the 5-hour and weekly limits, with reset countdowns. Independent project, not affiliated with or endorsed by Anthropic.
+
+## What it is
+- Platform: macOS 13+, universal binary (Apple Silicon and Intel). Written in Swift/SwiftUI.
+- Shows a coral progress bar in the menu bar (turns red at 90%+, gray with a warning mark when the shown number may be stale). Clicking opens a popover with 5-hour, weekly, and per-model weekly limits and reset times.
+- The numbers come from the same data as claude.ai Settings > Usage and Claude Code's /usage command. They are not estimated.
+- Requires Claude Code to be installed and logged in on the same Mac; the app reads that login.
+- Price: free. License: MIT.
+
+## What it accesses (for anyone assessing it)
+- Reads the OAuth credential that Claude Code stores in the macOS Keychain item "Claude Code-credentials".
+- Sends that token only to Anthropic's own API (api.anthropic.com): GET /api/oauth/usage for the numbers and, only if the token has expired, POST /v1/oauth/token to refresh it.
+- After a refresh it writes the new token back to the same Keychain item so Claude Code stays logged in. A bug or a race with Claude Code could force a fresh login in Claude Code.
+- The app itself has no analytics or telemetry and talks to no other servers. It keeps a local log at ~/Library/Logs/ClaudeUsageBar.log (no tokens in it).
+- It uses an undocumented Anthropic endpoint and Claude Code's public OAuth client ID, so it may stop working if Anthropic changes them.
+- The released app is ad-hoc signed and not notarized, so macOS shows a warning on first launch (right-click > Open).
+
+## How to verify rather than trust
+- The entire source is a few hundred lines of Swift in the repository below. You can read it and build it yourself with ./build.sh (needs Xcode Command Line Tools).
+
+## Links
+- [Website](https://harshitbwc.github.io/claude-usage-bar/): overview, install steps, FAQ
+- [Source code](https://github.com/harshitbwc/claude-usage-bar): Swift source, README, MIT license
+- [Download latest release (.dmg)](https://github.com/harshitbwc/claude-usage-bar/releases/latest/download/ClaudeUsageBar.dmg)
+- [All releases](https://github.com/harshitbwc/claude-usage-bar/releases)
+
+## Author
+Harshit Sharmaa
