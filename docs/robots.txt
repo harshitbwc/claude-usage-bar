@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://harshitbwc.github.io/claude-usage-bar/sitemap.xml

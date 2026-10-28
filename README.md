@@ -7,6 +7,8 @@ the same numbers as `claude.ai → Settings → Usage` and Claude Code's `/usage
 ▰▰▰▱▱▱▱▱ 32%
 ```
 
+**[Website](https://harshitbwc.github.io/claude-usage-bar/)** · **[Download](https://github.com/harshitbwc/claude-usage-bar/releases/latest)**
+
 ## How it works
 
 It calls the same authenticated endpoint Claude Code's `/usage` uses:

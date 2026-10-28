@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Usage Bar – See your Claude limits in the Mac menu bar</title>
+<meta name="description" content="Claude Usage Bar is a free, open-source Mac menu-bar widget that shows your real Claude usage: 5-hour and weekly limits, with reset countdowns, at a glance.">
+<link rel="canonical" href="https://harshitbwc.github.io/claude-usage-bar/">
+<meta name="theme-color" content="#1b1824">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='11' width='28' height='10' rx='5' fill='%23444'/%3E%3Crect x='2' y='11' width='13' height='10' rx='5' fill='%23D97757'/%3E%3C/svg%3E">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Claude Usage Bar – Know your Claude limit before it knows you">
+<meta property="og:description" content="A free, open-source Mac menu-bar widget that shows your Claude 5-hour and weekly limits at a glance.">
+<meta property="og:url" content="https://harshitbwc.github.io/claude-usage-bar/">
+<meta property="og:image" content="https://harshitbwc.github.io/claude-usage-bar/assets/hero.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Claude Usage Bar – Know your Claude limit before it knows you">
+<meta name="twitter:description" content="A free, open-source Mac menu-bar widget that shows your Claude 5-hour and weekly limits at a glance.">
+<meta name="twitter:image" content="https://harshitbwc.github.io/claude-usage-bar/assets/hero.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Claude Usage Bar",
+  "description": "A free, open-source Mac menu-bar widget that shows your Claude 5-hour and weekly usage limits with reset countdowns.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "macOS 13 or later",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "downloadUrl": "https://github.com/harshitbwc/claude-usage-bar/releases/latest/download/ClaudeUsageBar.dmg",
+  "url": "https://harshitbwc.github.io/claude-usage-bar/",
+  "image": "https://harshitbwc.github.io/claude-usage-bar/assets/hero.png",
+  "license": "https://opensource.org/licenses/MIT",
+  "author": { "@type": "Person", "name": "Harshit Sharmaa" }
+}
+</script>
+
+<style>
+:root {
+  --bg: #fbf8f5;
+  --surface: #ffffff;
+  --text: #1f1b24;
+  --muted: #6b6573;
+  --line: rgba(31, 27, 36, 0.1);
+  --coral: #d97757;
+  --coral-ink: #b85a3c;
+  --on-coral: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1b1824;
+    --surface: #26222f;
+    --text: #f4f1f7;
+    --muted: #a39cad;
+    --line: rgba(255, 255, 255, 0.1);
+    --coral-ink: #e8977b;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1b1824;
+  --surface: #26222f;
+  --text: #f4f1f7;
+  --muted: #a39cad;
+  --line: rgba(255, 255, 255, 0.1);
+  --coral-ink: #e8977b;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 17px/1.6 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--coral-ink); }
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+header.top { padding: 22px 0; }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); text-decoration: none; }
+.pill { width: 34px; height: 12px; border-radius: 6px; background: var(--line); overflow: hidden; display: inline-block; }
+.pill i { display: block; width: 40%; height: 100%; background: var(--coral); border-radius: 6px; }
+header.top nav a { margin-left: 18px; color: var(--muted); text-decoration: none; font-size: 15px; }
+header.top nav a:hover { color: var(--text); }
+
+.hero { padding: 40px 0 56px; text-align: center; }
+.eyebrow { color: var(--coral-ink); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; font-size: 13px; }
+h1 { font-size: clamp(36px, 7vw, 64px); line-height: 1.05; letter-spacing: -0.03em; margin: 14px auto 18px; max-width: 14em; }
+.lede { color: var(--muted); font-size: clamp(18px, 2.4vw, 21px); max-width: 34em; margin: 0 auto 28px; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 24px; border-radius: 999px; font-weight: 700; font-size: 17px;
+  text-decoration: none; border: 1px solid var(--line); color: var(--text); background: var(--surface);
+}
+.btn.primary { background: var(--coral); color: var(--on-coral); border-color: transparent; }
+.btn:hover { filter: brightness(1.05); }
+.btn:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+.fine { color: var(--muted); font-size: 14px; margin-top: 14px; }
+
+.demo { margin: 44px auto 0; max-width: 880px; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25); background: #1b1824; }
+.demo video, .demo img { display: block; width: 100%; height: auto; }
+
+section { padding: 56px 0; }
+h2 { font-size: clamp(26px, 4vw, 36px); letter-spacing: -0.02em; margin: 0 0 12px; }
+.sub { color: var(--muted); max-width: 36em; margin: 0 0 32px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+.card h3 { margin: 0 0 6px; font-size: 18px; }
+.card p { margin: 0; color: var(--muted); font-size: 16px; }
+.emoji { font-size: 26px; display: block; margin-bottom: 10px; }
+
+.steps { counter-reset: s; display: grid; gap: 14px; padding: 0; list-style: none; }
+.steps li { counter-increment: s; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px 18px 64px; position: relative; }
+.steps li::before {
+  content: counter(s); position: absolute; left: 18px; top: 16px; width: 32px; height: 32px; border-radius: 50%;
+  background: var(--coral); color: var(--on-coral); font-weight: 700; display: grid; place-items: center;
+}
+.steps b { display: block; }
+.steps span { color: var(--muted); font-size: 16px; }
+code { background: var(--line); padding: 2px 6px; border-radius: 6px; font-size: 0.9em; word-break: break-all; }
+
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; margin-bottom: 10px; }
+summary { cursor: pointer; font-weight: 700; }
+details p { color: var(--muted); margin: 10px 0 0; }
+
+footer { border-top: 1px solid var(--line); padding: 32px 0 48px; color: var(--muted); font-size: 15px; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#"><span class="pill"><i></i></span> Claude Usage Bar</a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://github.com/harshitbwc/claude-usage-bar">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div class="eyebrow">Free menu-bar widget for Mac</div>
+    <h1>Know your Claude limit before it knows you.</h1>
+    <p class="lede">We've all been mid-thought when Claude says <em>"you've hit your limit."</em> Claude Usage Bar puts your real usage in your menu bar, so you always see it coming.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/harshitbwc/claude-usage-bar/releases/latest/download/ClaudeUsageBar.dmg">⬇ Download for Mac</a>
+      <a class="btn" href="https://github.com/harshitbwc/claude-usage-bar">View source on GitHub</a>
+    </div>
+    <p class="fine">Free &amp; open source · macOS 13+ · Apple Silicon &amp; Intel · Needs Claude Code</p>
+
+    <div class="demo">
+      <video autoplay muted loop playsinline poster="assets/hero.png" width="1280" height="720" aria-label="Animation: the usage bar in the Mac menu bar fills to 32 percent, then a popover opens showing 5-hour and weekly limits">
+        <source src="assets/promo.mp4" type="video/mp4">
+        <img src="assets/promo.gif" alt="The usage bar in the Mac menu bar fills to 32 percent, then a popover opens showing 5-hour and weekly limits" width="800" height="450">
+      </video>
+    </div>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <h2>Everything you need. Nothing you don't.</h2>
+      <p class="sub">A tiny app that does one job and stays out of your way.</p>
+      <div class="grid">
+        <div class="card"><span class="emoji">🟠</span><h3>Live usage bar</h3><p>A coral bar in your menu bar fills as you use Claude, with the percentage right on it.</p></div>
+        <div class="card"><span class="emoji">⏳</span><h3>5-hour &amp; weekly limits</h3><p>Click for the full picture, including your Sonnet and Opus usage when available, plus reset countdowns.</p></div>
+        <div class="card"><span class="emoji">🔴</span><h3>Warns you early</h3><p>The bar turns red as you near the wall, and turns gray with a ⚠ if the number might be out of date.</p></div>
+        <div class="card"><span class="emoji">🚀</span><h3>Starts at login</h3><p>Flip one switch and it's always there when your Mac wakes up.</p></div>
+        <div class="card"><span class="emoji">🪶</span><h3>Featherlight</h3><p>No Dock icon, no clutter. It checks in gently every few minutes.</p></div>
+        <div class="card"><span class="emoji">🔓</span><h3>Open source</h3><p>Free, MIT licensed, and the whole thing is a few hundred lines of Swift you can read.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="wrap">
+      <h2>Up and running in a minute</h2>
+      <p class="sub">Three steps, and you'll never wonder how much Claude you have left.</p>
+      <ol class="steps">
+        <li><b>Download the app</b><span>Grab <a href="https://github.com/harshitbwc/claude-usage-bar/releases/latest/download/ClaudeUsageBar.dmg">ClaudeUsageBar.dmg</a>, open it, and drag the app into Applications.</span></li>
+        <li><b>Open it the first time</b><span>The app isn't notarized yet, so macOS asks for a nudge: right-click it in Applications, choose <b style="display:inline">Open</b>, then <b style="display:inline">Open</b> again.</span></li>
+        <li><b>Look up</b><span>Your usage bar appears in the menu bar. If macOS asks about the Keychain, choose <b style="display:inline">Always Allow</b>.</span></li>
+      </ol>
+      <p class="fine">You'll need <a href="https://claude.com/claude-code">Claude Code</a> installed and logged in on the same Mac. That's where the app reads your login.</p>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2>Questions</h2>
+      <details>
+        <summary>Is this official?</summary>
+        <p>No. Claude Usage Bar is an independent project and isn't affiliated with or endorsed by Anthropic. It relies on an undocumented usage endpoint, so it could stop working if that changes.</p>
+      </details>
+      <details>
+        <summary>Is it safe? What does it do with my login?</summary>
+        <p>It reads the login Claude Code already stores in your Mac's Keychain and sends it only to Anthropic's own API to fetch your usage. No analytics and no other servers. If your login has expired, it refreshes it the same way Claude Code does. You can read every line in the <a href="https://github.com/harshitbwc/claude-usage-bar">source code</a>.</p>
+      </details>
+      <details>
+        <summary>Why do I need Claude Code?</summary>
+        <p>The app borrows Claude Code's saved login instead of asking for your password. Without Claude Code, there's no login to read and the app shows "No Claude login found".</p>
+      </details>
+      <details>
+        <summary>Do the numbers match Claude's own usage page?</summary>
+        <p>Yes. They come from the same data as Settings → Usage on claude.ai and the <code>/usage</code> command in Claude Code, not from an estimate.</p>
+      </details>
+      <details>
+        <summary>Does it work on Intel Macs?</summary>
+        <p>Yes. The download is a universal app that runs on both Apple Silicon and Intel, on macOS 13 or later.</p>
+      </details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Built by Harshit Sharmaa · MIT License</span>
+    <span><a href="https://github.com/harshitbwc/claude-usage-bar">GitHub</a> · <a href="https://github.com/harshitbwc/claude-usage-bar/releases">Releases</a></span>
+  </div>
+  <div class="wrap" style="margin-top:10px"><span>Independent project, not affiliated with Anthropic.</span></div>
+</footer>
+
+</body>
+</html>
