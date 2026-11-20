@@ -9,7 +9,7 @@ MACOS="$BUNDLE/Contents/MacOS"
 
 echo "→ Compiling…"
 rm -rf "$BUNDLE"
-mkdir -p "$MACOS"
+mkdir -p "$MACOS" "$BUNDLE/Contents/Resources"
 
 # Universal binary (Apple Silicon + Intel), macOS 13+.
 TMP="build/.tmp"
@@ -23,6 +23,8 @@ done
 lipo -create "$TMP/$APP-arm64" "$TMP/$APP-x86_64" -output "$MACOS/$APP"
 rm -rf "$TMP"
 
+cp Resources/AppIcon.icns "$BUNDLE/Contents/Resources/AppIcon.icns"
+
 cat > "$BUNDLE/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -34,6 +36,7 @@ cat > "$BUNDLE/Contents/Info.plist" <<PLIST
   <key>CFBundleVersion</key><string>1.0</string>
   <key>CFBundleShortVersionString</key><string>1.0</string>
   <key>CFBundleExecutable</key><string>$APP</string>
+  <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>LSUIElement</key><true/>

@@ -202,7 +202,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       </details>
       <details>
         <summary>Is it safe? What does it do with my login?</summary>
-        <p>It reads the login Claude Code already stores in your Mac's Keychain and sends it only to Anthropic's own API to fetch your usage. No analytics and no other servers. If your login has expired, it refreshes it the same way Claude Code does. You can read every line in the <a href="https://github.com/harshitbwc/claude-usage-bar">source code</a>.</p>
+        <p>It reads the login Claude Code already stores in your Mac's Keychain and sends it only to Anthropic's own API to fetch your usage. No analytics and no other servers. It only reads the login: it never writes to the Keychain or refreshes the token, so it can't log you out of Claude Code. If the login has expired it shows a ⚠ until you use Claude Code again. You can read every line in the <a href="https://github.com/harshitbwc/claude-usage-bar">source code</a>.</p>
       </details>
       <details>
         <summary>Why do I need Claude Code?</summary>

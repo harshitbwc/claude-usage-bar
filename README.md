@@ -44,15 +44,11 @@ to Anthropic's own API — nowhere else.
 Activity is logged to `~/Library/Logs/ClaudeUsageBar.log` — `tail -f` it to see
 exactly when requests happen.
 
-**Token refresh (only when needed).** If the stored token has expired (or a request
-returns 401), the app refreshes it via `POST /v1/oauth/token` and updates the *same*
-Keychain item so Claude Code stays logged in. Safeguards, since refresh tokens rotate:
-
-- never refreshes ahead of time — only once the token is actually unusable;
-- re-reads the Keychain first and uses Claude Code's token if it already refreshed;
-- updates the existing item in place (tokens go to `security -i` over stdin, hex-encoded, so they never show up in `ps`), keeps every key in the stored JSON, then
-  re-reads to verify the write;
-- if the write fails, holds the new tokens in memory and retries rather than losing them — but discards them if the Keychain changed in the meantime (e.g. you logged in again), so a newer login is never overwritten.
+**Read-only.** The app only *reads* your login: it never writes to the Keychain and
+never refreshes the token. Claude Code owns the token lifecycle, so this app can't
+log you out of it. If the stored token has expired, the app re-checks the Keychain
+(in case Claude Code just refreshed it) and otherwise shows `⚠ Login expired` until
+you use Claude Code again.
 
 If the latest fetch failed but an older number is still shown, the bar turns gray and gets a trailing `⚠` so a stale value can't pass for a live one.
 
@@ -98,12 +94,11 @@ A locally built app isn't quarantined, so there's no Gatekeeper prompt.
 ## Please read
 
 - **Unofficial.** Not affiliated with or endorsed by Anthropic. It relies on an
-  undocumented usage endpoint and Claude Code's public OAuth client ID, so it can
-  break or stop working at any time.
-- **It touches your Claude Code login.** It reads the token Claude Code stores in
-  the Keychain and, only when that token has expired, refreshes it and writes the
-  new one back to the same item. A bug or race there could force you to log in to
-  Claude Code again. Use at your own risk.
+  undocumented usage endpoint, so it can break or stop working at any time.
+- **It reads your Claude Code login.** It reads the token Claude Code stores in
+  the Keychain. It never writes to the Keychain or refreshes the token, so it
+  can't log you out of Claude Code. When the token expires it shows `⚠` until you
+  use Claude Code again.
 - **Privacy.** The token is sent only to `api.anthropic.com`. No analytics, no other
   servers — it's all in `Sources/` if you want to check.
 
@@ -115,8 +110,8 @@ A locally built app isn't quarantined, so there's no Gatekeeper prompt.
 - Reset countdown for each window
 - Last-updated time, **Refresh**, **Quit**
 
-If refresh fails (e.g. the refresh token itself was revoked), the bar shows `⚠` —
-run Claude Code once to log in again.
+If the stored token has expired, the bar shows `⚠` — use Claude Code once and it
+refreshes the login; the widget picks it up on its next check.
 
 ## Launch at login
 
@@ -130,7 +125,7 @@ System Settings → General → Login Items.
 
 ## Source
 
-- `Sources/Usage.swift` — Keychain token, refresh + usage API client
+- `Sources/Usage.swift` — read-only Keychain token + usage API client
 - `Sources/App.swift` — menu-bar widget + popover
 - `build.sh` — compiles a universal binary and assembles the ad-hoc-signed `.app`
 - `package.sh` — builds the app and packages it as a `.dmg` for a release

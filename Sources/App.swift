@@ -103,6 +103,19 @@ final class UsageModel: ObservableObject {
         let stale = !noData && error != nil
         return MenuBar.barImage(percent: fiveHourPercent, error: error != nil && noData, stale: stale)
     }
+
+    // Hover text for the menu-bar item — says why the ⚠ is showing.
+    var menuBarTooltip: String {
+        let pct = "\(Int(fiveHourPercent.rounded()))%"
+        guard let error else { return "Claude 5-hour usage: \(pct)" }
+        if snapshot.fiveHour == nil { return "Claude Usage Bar: \(error)" }
+        var text = "\(error)\nShowing last known 5-hour usage: \(pct)"
+        if let last = lastUpdated {
+            let f = DateFormatter(); f.dateFormat = "HH:mm"
+            text += " (as of \(f.string(from: last)))"
+        }
+        return text
+    }
 }
 
 enum MenuBar {
@@ -158,6 +171,7 @@ struct ClaudeUsageBarApp: App {
             PopoverView(model: model)
         } label: {
             Image(nsImage: model.menuBarImage)
+                .help(model.menuBarTooltip)
                 .onAppear { model.start() }
         }
         .menuBarExtraStyle(.window)

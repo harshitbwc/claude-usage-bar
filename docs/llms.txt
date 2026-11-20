@@ -11,10 +11,10 @@
 
 ## What it accesses (for anyone assessing it)
 - Reads the OAuth credential that Claude Code stores in the macOS Keychain item "Claude Code-credentials".
-- Sends that token only to Anthropic's own API (api.anthropic.com): GET /api/oauth/usage for the numbers and, only if the token has expired, POST /v1/oauth/token to refresh it.
-- After a refresh it writes the new token back to the same Keychain item so Claude Code stays logged in. A bug or a race with Claude Code could force a fresh login in Claude Code.
+- Sends that token only to Anthropic's own API (api.anthropic.com), via GET /api/oauth/usage, to fetch the usage numbers.
+- Read-only: it never writes to the Keychain and never refreshes the token, so it cannot log Claude Code out. When the token expires it shows a warning until Claude Code refreshes it.
 - The app itself has no analytics or telemetry and talks to no other servers. It keeps a local log at ~/Library/Logs/ClaudeUsageBar.log (no tokens in it).
-- It uses an undocumented Anthropic endpoint and Claude Code's public OAuth client ID, so it may stop working if Anthropic changes them.
+- It uses an undocumented Anthropic endpoint, so it may stop working if Anthropic changes it.
 - The released app is ad-hoc signed and not notarized, so macOS shows a warning on first launch (right-click > Open).
 
 ## How to verify rather than trust
