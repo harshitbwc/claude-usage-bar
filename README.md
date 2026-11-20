@@ -71,12 +71,20 @@ Keychain — without it you'll see "No Claude login found").
 1. Download `ClaudeUsageBar.dmg` from the
    [Releases page](https://github.com/harshitbwc/claude-usage-bar/releases/latest).
 2. Open it and drag **Claude Usage Bar** onto the **Applications** shortcut.
-3. The app is not notarized, so macOS will block the first launch. Either
-   right-click the app in Applications → **Open** → **Open**, or run:
-   ```bash
-   xattr -dr com.apple.quarantine /Applications/ClaudeUsageBar.app
-   ```
-4. Open it. On the first Keychain read you may get a prompt — choose **Always Allow**.
+3. Open the app. The first launch will be blocked with *"Apple could not verify
+   ClaudeUsageBar is free of malware"* — that's because the app isn't notarized
+   (notarization needs a paid Apple Developer account). It does not mean the app is
+   damaged. Unblock it with **either**:
+   - **System Settings → Privacy & Security**, scroll to the Security section, click
+     **Open Anyway** next to "ClaudeUsageBar was blocked", then **Open** (enter your
+     password if asked); **or**
+   - run this in Terminal, then open the app again:
+     ```bash
+     xattr -dr com.apple.quarantine /Applications/ClaudeUsageBar.app
+     ```
+
+   (On recent macOS versions, right-click → Open no longer bypasses this warning.)
+4. If macOS asks about the Keychain, choose **Always Allow**.
 
 ### Option B — build from source
 

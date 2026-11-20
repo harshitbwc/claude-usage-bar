@@ -186,7 +186,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <p class="sub">Three steps, and you'll never wonder how much Claude you have left.</p>
       <ol class="steps">
         <li><b>Download the app</b><span>Grab <a href="https://github.com/harshitbwc/claude-usage-bar/releases/latest/download/ClaudeUsageBar.dmg">ClaudeUsageBar.dmg</a>, open it, and drag the app into Applications.</span></li>
-        <li><b>Open it the first time</b><span>The app isn't notarized yet, so macOS asks for a nudge: right-click it in Applications, choose <b style="display:inline">Open</b>, then <b style="display:inline">Open</b> again.</span></li>
+        <li><b>Open it the first time</b><span>macOS will say it "could not verify" the app, because it isn't notarized (that needs a paid Apple account). It doesn't mean the app is damaged. Open <b style="display:inline">System Settings → Privacy &amp; Security</b>, scroll down and click <b style="display:inline">Open Anyway</b>, then <b style="display:inline">Open</b>. Or run <code>xattr -dr com.apple.quarantine /Applications/ClaudeUsageBar.app</code> in Terminal and open it again.</span></li>
         <li><b>Look up</b><span>Your usage bar appears in the menu bar. If macOS asks about the Keychain, choose <b style="display:inline">Always Allow</b>.</span></li>
       </ol>
       <p class="fine">You'll need <a href="https://claude.com/claude-code">Claude Code</a> installed and logged in on the same Mac. That's where the app reads your login.</p>

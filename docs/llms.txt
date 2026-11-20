@@ -15,7 +15,7 @@
 - Read-only: it never writes to the Keychain and never refreshes the token, so it cannot log Claude Code out. When the token expires it shows a warning until Claude Code refreshes it.
 - The app itself has no analytics or telemetry and talks to no other servers. It keeps a local log at ~/Library/Logs/ClaudeUsageBar.log (no tokens in it).
 - It uses an undocumented Anthropic endpoint, so it may stop working if Anthropic changes it.
-- The released app is ad-hoc signed and not notarized, so macOS shows a warning on first launch (right-click > Open).
+- The released app is ad-hoc signed and not notarized, so macOS blocks the first launch with "Apple could not verify ... is free of malware". The user unblocks it via System Settings > Privacy & Security > Open Anyway, or with: xattr -dr com.apple.quarantine /Applications/ClaudeUsageBar.app
 
 ## How to verify rather than trust
 - The entire source is a few hundred lines of Swift in the repository below. You can read it and build it yourself with ./build.sh (needs Xcode Command Line Tools).
